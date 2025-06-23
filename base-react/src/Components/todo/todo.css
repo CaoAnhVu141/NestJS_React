@@ -57,3 +57,21 @@ body {
     transform: scale(1.1);
     transition: all 0.3s ease;
 }
+
+.show-data-todo{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px  0 20px;
+    padding: 4px;
+}
+
+.btn-delete-item{
+    height: 20px;
+    width: 100px;
+    background-color: rgb(139, 27, 203);
+    color: white;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1px solid rgb(247, 109, 10);
+}
