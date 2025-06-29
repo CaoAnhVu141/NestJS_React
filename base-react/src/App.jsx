@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import './Components/todo/todo.css'
+import './style/style.css'
 import TodoData from './Components/todo/todoData'
 import TodoInput from './Components/todo/todoInput'
 import imglogo from './assets/react.svg'
