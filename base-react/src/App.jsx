@@ -4,6 +4,10 @@ import './style/style.css'
 import TodoData from './Components/todo/todoData'
 import TodoInput from './Components/todo/todoInput'
 import imglogo from './assets/react.svg'
+import Header from './Components/layout/header';
+import Footer from './Components/layout/footer';
+import './Components/todo/todo.css'
+import { Outlet } from 'react-router-dom';
 
 function App() {
 
@@ -28,21 +32,25 @@ function App() {
   }
 
   return (
-    <div className="todo-container">
-      <div className="todo-title">Todo List</div>
-      <TodoInput
-        addNewToDo={addNewToDo} />
-
-      {dataTodoList.length > 0 ?
-        <TodoData
-          dataTodoList={dataTodoList}
-          deteleItem={deteleItem} />
-        :
-        <div className='todo-image'>
-          <img src={imglogo} alt="" />
-        </div>
-      }
-    </div>
+    <>
+      <Header />
+      <div className="todo-container">
+        <div className="todo-title">Todo List</div>
+        <TodoInput
+          addNewToDo={addNewToDo} />
+        {dataTodoList.length > 0 ?
+          <TodoData
+            dataTodoList={dataTodoList}
+            deteleItem={deteleItem} />
+          :
+          <div className='todo-image'>
+            <img src={imglogo} alt="" />
+          </div>
+        }
+      </div>
+      <Outlet/>
+      <Footer />
+    </>
   )
 }
 

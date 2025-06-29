@@ -16,10 +16,14 @@ const TodoInput = (props) => {
     }
 
     return (
+        <>
+        <div className="parent-data">
         <div className='todo-input'>
         <input type="text" className='input-enter' placeholder='enter your task' onChange={(event) => {handleOnChange(event.target.value)}} value={valueInput}/>
         <button className='btn-add' onClick={handleFunction}>Add</button>
       </div>
+      </div>
+      </>
     )
 }
 

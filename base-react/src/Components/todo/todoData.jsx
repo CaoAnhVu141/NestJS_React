@@ -7,6 +7,8 @@ const TodoData = (props) => {
       deteleItem(id);
     }
     return (
+      <>
+      <div className="parent-data">
         <div className="todo-data">
         {props.dataTodoList.map((item,index) => {
           return (
@@ -19,6 +21,8 @@ const TodoData = (props) => {
           )
         })}
       </div>
+      </div>
+      </>
     )
 }
 
