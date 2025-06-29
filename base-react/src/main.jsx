@@ -8,13 +8,15 @@ import {
 import LoginPage from './pages/login.jsx';
 import UserPage from './pages/user.jsx';
 import RegisterPage from './pages/register.jsx';
-import ProductPage from './pages/product.jsx';
+import BookPage from './pages/books.jsx';
 import TodoApp from './Components/todo/todoApp.jsx';
+import ErrorPage from './pages/errors.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage/>,
     children: [
       {
       index: true,
@@ -25,8 +27,8 @@ const router = createBrowserRouter([
         element: <UserPage />,
       },
       {
-        path: "/product",
-        element: <ProductPage />,
+        path: "/book",
+        element: <BookPage />,
       },
     ]
   },
