@@ -8,8 +8,6 @@ import imglogo from './assets/react.svg'
 function App() {
 
   const [dataTodoList, setTodoList] = useState([
-    // {id: 1, name: "Cao Anh Vũ"},
-    // {id:2,name: "Nguyễn Văn Bấc"}
   ]);
 
   const addNewToDo = (name) => {
@@ -24,6 +22,11 @@ function App() {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  const deteleItem = (id) => {
+    const dataDelete = dataTodoList.filter(item => item.id !== id);
+    setTodoList(dataDelete);
+  }
+
   return (
     <div className="todo-container">
       <div className="todo-title">Todo List</div>
@@ -32,7 +35,8 @@ function App() {
 
       {dataTodoList.length > 0 ?
         <TodoData
-          dataTodoList={dataTodoList} />
+          dataTodoList={dataTodoList}
+          deteleItem={deteleItem} />
         :
         <div className='todo-image'>
           <img src={imglogo} alt="" />

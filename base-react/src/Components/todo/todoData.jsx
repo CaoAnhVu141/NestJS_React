@@ -1,7 +1,11 @@
 
 
 const TodoData = (props) => {
-    const {name,age,data} = props;
+    const {name,age,data,deteleItem} = props;
+
+    const handleClickDelete = (id) => {
+      deteleItem(id);
+    }
     return (
         <div className="todo-data">
         {props.dataTodoList.map((item,index) => {
@@ -9,7 +13,7 @@ const TodoData = (props) => {
             <>
             <div className="show-data-todo" key={item.id}>
             <div>{item.name}</div>
-            <button className="btn-delete-item">Delete</button>
+            <button className="btn-delete-item" onClick={() => handleClickDelete(item.id)}>Delete</button>
             </div>
             </>
           )
