@@ -6,6 +6,8 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -27,6 +29,11 @@ import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 
     AuthModule, UsersModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+    provide: APP_GUARD,
+    useClass: JwtAuthGuard,
+  },
+  ],
 })
 export class AppModule { }
