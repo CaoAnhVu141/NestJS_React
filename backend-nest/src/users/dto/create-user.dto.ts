@@ -12,6 +12,9 @@ export class CreateUserDto {
     @IsNotEmpty({message: "Password không được để trống"})
     password: string;
 
+    @IsNotEmpty({message: "Age không được để trống"})
+    age: number;
+
     @IsNotEmpty({message: "Gender không được để trống"})
     gender: string;
 

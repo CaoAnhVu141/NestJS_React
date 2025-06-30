@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { User as UserM, UserDocument } from './schemas/user.schema';
 
-import { compareSync } from 'bcryptjs';
+import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { UsersModule } from './users.module';
 
 @Injectable()
@@ -16,8 +16,28 @@ export class UsersService {
     private userModel: SoftDeleteModel<UserDocument>,
 
   ) { }
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+
+  getHashPassword = (password: string) => {
+    const salt = genSaltSync(10);
+    const hash = hashSync(password, salt);
+    return hash;
+  }
+ 
+  async createNewService(createUserDto: CreateUserDto) {
+      const {
+        name,email,password,age,gender
+      } = createUserDto;
+
+      const checkEmail = await this.userModel.find({email});
+      if(!checkEmail){
+          throw new BadRequestException(`Email: ${email} đã tồn tại trên hệ thống. Vui lòng sử dụng email khác.`)
+      }
+
+      const handlePassword = this.getHashPassword(password);
+
+      return await this.userModel.create({
+        name: name, email: email, password: handlePassword, age: age, gender: gender
+      });
   }
 
   findAll() {
