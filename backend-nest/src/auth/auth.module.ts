@@ -8,10 +8,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './passport/jwt.strategy';
 import ms from 'ms'
+import { AuthController } from './auth.controller';
 
 @Module({
   providers: [AuthService,LocalStrategy,JwtStrategy],
-  exports: [AuthService],
+  exports: [AuthService], controllers: [AuthController],
   imports: [UsersModule, PassportModule,
 
   // config register for jwt 
