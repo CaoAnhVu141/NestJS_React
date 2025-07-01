@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { Public, ResponseMessage } from 'src/decorator/customize';
+import { Public, ResponseMessage, User } from 'src/decorator/customize';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
+import { IUser } from 'src/users/users.interface';
 
 
 @Controller("auth")
@@ -25,5 +26,12 @@ export class AuthController {
   getProfile(@Req() req) {
     return req.user;
   }
+
+  @Get('/account')
+  handleAccount(@User() user: IUser)
+  {
+    return {user};
+  }
+
 
 }
