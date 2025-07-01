@@ -8,8 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
-  const reflector = app.get( Reflector );
-  app.useGlobalGuards( new JwtAuthGuard( reflector ) );
+  const reflector = app.get(Reflector);
+  app.useGlobalGuards(new JwtAuthGuard(reflector));
 
   // config version api
   app.setGlobalPrefix('api');
@@ -17,6 +17,16 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: ['1', '2'] //v1, v2
   });
+
+  // config cors
+  app.enableCors(
+    {
+      "origin": "*",
+      "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+      "preflightContinue": false,
+    }
+  );
+
   await app.listen(configService.get<string>("PORT"));
 }
 bootstrap();
