@@ -19,6 +19,9 @@ export class User {
 
   @Prop()
   gender: string;
+
+  @Prop()
+  refreshToken: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
