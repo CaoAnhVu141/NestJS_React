@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from 'src/users/users.interface';
+import ms from 'ms';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -9,6 +11,7 @@ export class AuthService {
     constructor(
         private usersService: UsersService,
         private jwtService: JwtService,
+        private configService: ConfigService,
     ) {}
 
     // username and pass are passport throw
@@ -34,6 +37,8 @@ export class AuthService {
             name,
             email,
         };
+        const refresh_token = this.createRefreshToken(payload);
+        console.log("check ==> ", refresh_token);
     return {
       user: {
           _id,name,email,
@@ -41,4 +46,13 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
     };
   }
+
+  // function create fresher token
+  createRefreshToken = (payload: any) => {
+        const refresh_token = this.jwtService.sign(payload, {
+            secret: this.configService.get<string>("JWT_REFRESH_TOKEN_SECRET"),
+            expiresIn: ms(this.configService.get<string>("JWT_REFRESH_EXPIRE")) / 1000
+        });
+        return refresh_token;
+    }
 }
