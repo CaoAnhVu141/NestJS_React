@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -7,6 +7,8 @@ import { User as UserM, UserDocument } from './schemas/user.schema';
 
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { UsersModule } from './users.module';
+import aqp from 'api-query-params';
+import { IUser } from './users.interface';
 
 @Injectable()
 export class UsersService {
@@ -40,12 +42,38 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async getAllUserService(currentPage: number, limit: number, qs: string) {
+    const { filter, sort, population } = aqp(qs);
+    delete filter.current;
+    delete filter.pageSize;
+
+    let offset = (+currentPage - 1) * (+limit);
+    let defaultLimit = +limit ? +limit : 10;
+
+    const totalItems = (await this.userModel.find(filter)).length;
+    const totalPages = Math.ceil(totalItems / defaultLimit);
+
+
+    const result = await this.userModel.find(filter)
+      .skip(offset)
+      .limit(defaultLimit)
+      .sort(sort as any)
+      .select('-password')
+      .populate(population)
+      .exec();
+    return {
+      meta: {
+        current: currentPage, 
+        pageSize: limit, 
+        pages: totalPages,  
+        total: totalItems
+      },
+      result 
+    }
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} user`;
+  async findOneUserService(id: string) {
+      return await this.userModel.findById(id);
   }
 
   findOneByUsername(username: string) {
@@ -54,12 +82,24 @@ export class UsersService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  update(id: string, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async removeByIdService(id: string, user: IUser) {
+    const userData = await this.userModel.findById(id);
+    if (!userData || userData.isDeleted) {
+      throw new NotFoundException("Tài khoản không tồn tại");
+    }
+    await this.userModel.updateOne({
+      _id: id,
+    }, {
+      updateBy: {
+        _id: user._id,
+        email: user.email
+      }
+    })
+    return this.userModel.softDelete({ _id: id });
   }
 
   isValidPassword(password: string, hash: string) {
