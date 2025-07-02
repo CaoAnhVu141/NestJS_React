@@ -22,22 +22,22 @@ export class UsersService {
     const hash = hashSync(password, salt);
     return hash;
   }
- 
+
   async createNewService(createUserDto: CreateUserDto) {
-      const {
-        name,email,password,age,gender
-      } = createUserDto;
+    const {
+      name, email, password, age, gender
+    } = createUserDto;
 
-      const checkEmail = await this.userModel.find({email});
-      if(!checkEmail){
-          throw new BadRequestException(`Email: ${email} đã tồn tại trên hệ thống. Vui lòng sử dụng email khác.`)
-      }
+    const checkEmail = await this.userModel.find({ email });
+    if (!checkEmail) {
+      throw new BadRequestException(`Email: ${email} đã tồn tại trên hệ thống. Vui lòng sử dụng email khác.`)
+    }
 
-      const handlePassword = this.getHashPassword(password);
+    const handlePassword = this.getHashPassword(password);
 
-      return await this.userModel.create({
-        name: name, email: email, password: handlePassword, age: age, gender: gender
-      });
+    return await this.userModel.create({
+      name: name, email: email, password: handlePassword, age: age, gender: gender
+    });
   }
 
   findAll() {
@@ -68,7 +68,11 @@ export class UsersService {
 
   // update user with refresh_token when login 
 
-   updateUserFunction = async (refreshToken: string, _id: string) => {
-    return await this.userModel.updateOne({_id},{refreshToken});
+  updateUserFunction = async (refreshToken: string, _id: string) => {
+    return await this.userModel.updateOne({ _id }, { refreshToken });
+  }
+
+  findUserByToken = async (refreshToken: string) => {
+    return await this.userModel.findOne({ refreshToken })
   }
 }
