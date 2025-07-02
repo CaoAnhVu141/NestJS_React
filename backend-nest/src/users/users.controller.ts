@@ -17,6 +17,7 @@ export class UsersController {
     return this.usersService.createNewService(createUserDto);
   }
 
+  @Public()
   @Get()
   @ResponseMessage("Fetch list users success")
   findAllUserController(@Query("current") currentPage: string,@Query("pageSize") limit: string, @Query() qs: string) {
@@ -34,6 +35,7 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto);
   }
 
+  @Public()
   @Delete(':id')
   @ResponseMessage("Delete user by id success")
   removeByIdController(@Param('id') id: string, @User() user: IUser) {

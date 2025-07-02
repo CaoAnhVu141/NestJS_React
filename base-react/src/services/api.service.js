@@ -10,4 +10,9 @@ const CreateUserAPI =  (fullName,email,password,age,gender) => {
        return axios.post(URL_BACKEND,data);
 }
 
-export {CreateUserAPI};
+    const GetAllUserAPI = () => {
+        const URL_BACKEND = "/api/v1/users";
+        return axios.get(URL_BACKEND);
+    }
+
+export {CreateUserAPI,GetAllUserAPI};
