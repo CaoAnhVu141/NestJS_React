@@ -20,6 +20,12 @@ const UserForm = () => {
                 description: "Tạo mới user thành công",
             });
        }
+       else{
+            notification.error({
+                message: "Error create user",
+                description: JSON.stringify(response.message),
+            });
+       }
     }
 
     return (

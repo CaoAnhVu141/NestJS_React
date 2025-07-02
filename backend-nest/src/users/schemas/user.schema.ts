@@ -14,10 +14,10 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ default: 0 })
+  @Prop({ required: true })
   age: number;
 
-  @Prop()
+  @Prop({ required: true })
   gender: string;
 
   @Prop()

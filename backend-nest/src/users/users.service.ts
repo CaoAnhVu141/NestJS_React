@@ -28,8 +28,8 @@ export class UsersService {
       name, email, password, age, gender
     } = createUserDto;
 
-    const checkEmail = await this.userModel.find({ email });
-    if (!checkEmail) {
+    const checkEmail = await this.userModel.findOne({email});
+    if (checkEmail) {
       throw new BadRequestException(`Email: ${email} đã tồn tại trên hệ thống. Vui lòng sử dụng email khác.`)
     }
 
