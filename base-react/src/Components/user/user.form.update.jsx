@@ -1,20 +1,31 @@
 import { Modal } from "antd"
 import { Button, Input, notification } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateUserAPI } from "../../services/api.service";
 
-const UpdateUserModell = () => {
-    const [isModalOpen, setIsModelOpen] = useState(false);
+const UpdateUserModell = (props) => {
+    
     const [fullName, setFullName] = useState();
     const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [id, setId] = useState();
     const [age, setAge] = useState();
     const [gender, setGender] = useState();
 
+    const {isModelUpdateOpen,setIsModelUpdateOpen,dataUpdate,setDataUpdate} = props;
     // const {loadAllDataUser} = props;
 
+    useEffect(() => {
+        if(dataUpdate){
+            setId(dataUpdate._id);
+            setFullName(dataUpdate.name);
+            setEmail(dataUpdate.email);
+            setAge(dataUpdate.age);
+            setGender(dataUpdate.gender);
+        }
+    },[dataUpdate])
+    
     const handleClickBtn = () => {
-        setIsModelOpen(true);
+        setIsModelUpdateOpen(true);
     }
 
     const handleCreateUser = async () => {
@@ -36,19 +47,26 @@ const UpdateUserModell = () => {
     }
 
     const clearDataForm = () => {
-        setIsModelOpen(false);
-        setFullName(""), setEmail(""),setPassword(""),setGender(""),setAge("");
+        setIsModelUpdateOpen(false);
+        setFullName(""), setEmail(""),setId(""),setGender(""),setAge("");
+        setDataUpdate(null)
     }
     return (
         <Modal
                 title="Model Update"
                 closable={{ 'aria-label': 'Custom Close Button' }}
-                open={isModalOpen}
+                open={isModelUpdateOpen}
                 onOk={() => { handleCreateUser() }}
-                onCancel={() => { setIsModelOpen(false) }}
+                onCancel={() => { setIsModelUpdateOpen(false) }}
                 maskClosable={false}
             >
                 <div className="data-form-user" style={{ display: "flex", gap: "15px", marginTop: "10px", flexDirection: "column"}}>
+                <div>
+                    <span>ID</span>
+                    <Input placeholder="ID"
+                        value={id}
+                        disabled />
+                </div>
                 <div>
                     <span>Họ tên</span>
                     <Input placeholder="Họ tên"
@@ -58,11 +76,6 @@ const UpdateUserModell = () => {
                     <span>Email</span>
                     <Input placeholder="Email"
                         value={email} onChange={(event) => { setEmail(event.target.value) }} />
-                </div>
-                <div>
-                    <span>Mật khẩu</span>
-                    <Input.Password placeholder="Mật khẩu"
-                        value={password} onChange={(event) => { setPassword(event.target.value) }} />
                 </div>
                 <div>
                     <span>Tuổi</span>

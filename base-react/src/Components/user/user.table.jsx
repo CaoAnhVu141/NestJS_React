@@ -8,6 +8,9 @@ const UserTable = (props) => {
 
     const { userData } = props;
 
+    const [isModelUpdateOpen, setIsModelUpdateOpen] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState(null);
+
     const columns = [
         {
             title: 'ID',
@@ -39,18 +42,20 @@ const UserTable = (props) => {
             key: 'action',
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "10px" }}>
-                    <a><EditOutlined /></a>
+                    <a><EditOutlined onClick={() => {setDataUpdate(record);setIsModelUpdateOpen(true)}} /></a>
                     <a><DeleteOutlined /></a>
                 </div>
             ),
         },
     ];
 
-
     return (
         <>
             <Table columns={columns} dataSource={userData} />
-            <UpdateUserModell />
+            <UpdateUserModell isModelUpdateOpen={isModelUpdateOpen}
+                               setIsModelUpdateOpen={setIsModelUpdateOpen}
+                               dataUpdate={dataUpdate}
+                               setDataUpdate={setDataUpdate} />
         </>
     )
 }
