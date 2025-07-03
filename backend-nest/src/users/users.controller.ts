@@ -30,15 +30,17 @@ export class UsersController {
     return this.usersService.findOneUserService(id);
   }
 
+  @Public()
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  @ResponseMessage("Update user success")
+  updateUserController(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.updateUserService(id, updateUserDto);
   }
 
   @Public()
   @Delete(':id')
   @ResponseMessage("Delete user by id success")
-  removeByIdController(@Param('id') id: string, @User() user: IUser) {
-    return this.usersService.removeByIdService(id,user);
+  removeByIdController(@Param('id') id: string) {
+    return this.usersService.removeByIdService(id);
   }
 }

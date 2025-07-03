@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -82,22 +82,30 @@ export class UsersService {
     });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async updateUserService(id: string, updateUserDto: UpdateUserDto) {
+    const {name,email,age,gender} = updateUserDto;
+    const userData = await this.userModel.findById(id);
+    if (!userData || userData.isDeleted) {
+      throw new NotFoundException("Tài khoản không tồn tại");
+    }
+    const userEmail = await this.userModel.findOne({email});
+    if(userEmail){
+        throw new ConflictException("Email đã tồn tại trong hệ thống");
+    }
+   return await this.userModel.updateOne({
+      _id: id
+    }, {
+        ...updateUserDto
+    });
   }
 
-  async removeByIdService(id: string, user: IUser) {
+  async removeByIdService(id: string) {
     const userData = await this.userModel.findById(id);
     if (!userData || userData.isDeleted) {
       throw new NotFoundException("Tài khoản không tồn tại");
     }
     await this.userModel.updateOne({
       _id: id,
-    }, {
-      updateBy: {
-        _id: user._id,
-        email: user.email
-      }
     })
     return this.userModel.softDelete({ _id: id });
   }
