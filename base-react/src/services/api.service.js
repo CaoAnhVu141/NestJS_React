@@ -23,6 +23,11 @@ const CreateUserAPI =  (fullName,email,password,age,gender) => {
         } 
         return axios.patch(URL_BACKEND,data);
     }
+
+    const DeleteUserAPI = (_id) => {
+        const URL_BACKEND = `/api/v1/users/${_id}`;
+        return axios.delete(URL_BACKEND);
+    }
     
 
-export {CreateUserAPI,GetAllUserAPI, UpdateUserAPI};
+export {CreateUserAPI,GetAllUserAPI, UpdateUserAPI, DeleteUserAPI};
