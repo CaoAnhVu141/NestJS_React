@@ -1,7 +1,7 @@
 import { Modal } from "antd"
 import { Button, Input, notification } from "antd";
 import { useEffect, useState } from "react";
-import { CreateUserAPI } from "../../services/api.service";
+import { UpdateUserAPI } from "../../services/api.service";
 
 const UpdateUserModell = (props) => {
     
@@ -11,8 +11,7 @@ const UpdateUserModell = (props) => {
     const [age, setAge] = useState();
     const [gender, setGender] = useState();
 
-    const {isModelUpdateOpen,setIsModelUpdateOpen,dataUpdate,setDataUpdate} = props;
-    // const {loadAllDataUser} = props;
+    const {isModelUpdateOpen,setIsModelUpdateOpen,dataUpdate,setDataUpdate, loadAllDataUser} = props;
 
     useEffect(() => {
         if(dataUpdate){
@@ -28,15 +27,15 @@ const UpdateUserModell = (props) => {
         setIsModelUpdateOpen(true);
     }
 
-    const handleCreateUser = async () => {
-        const response = await CreateUserAPI(fullName, email, password, age, gender);
+    const handleUpdateUser = async () => {
+        const response = await UpdateUserAPI(id,fullName, email, age, gender);
         if (response.data) {
             notification.success({
-                message: "Create user",
-                description: "Tạo mới user thành công",
+                message: "Update user",
+                description: "Cập nhật user thành công",
             });
             clearDataForm();
-        //    await loadAllDataUser()
+           await loadAllDataUser()
         }
         else {
             notification.error({
@@ -56,7 +55,7 @@ const UpdateUserModell = (props) => {
                 title="Model Update"
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 open={isModelUpdateOpen}
-                onOk={() => { handleCreateUser() }}
+                onOk={() => { handleUpdateUser() }}
                 onCancel={() => { setIsModelUpdateOpen(false) }}
                 maskClosable={false}
             >

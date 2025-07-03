@@ -16,7 +16,7 @@ const UserPage = () => {
     return (
         <div>
             <UserForm loadAllDataUser={loadAllDataUser}/>
-            <UserTable userData={userData}/>
+            <UserTable userData={userData} loadAllDataUser={loadAllDataUser}/>
         </div>
     )
 }

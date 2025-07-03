@@ -6,7 +6,7 @@ import UpdateUserModell from './user.form.update';
 
 const UserTable = (props) => {
 
-    const { userData } = props;
+    const { userData, loadAllDataUser } = props;
 
     const [isModelUpdateOpen, setIsModelUpdateOpen] = useState(false);
     const [dataUpdate, setDataUpdate] = useState(null);
@@ -51,11 +51,12 @@ const UserTable = (props) => {
 
     return (
         <>
-            <Table columns={columns} dataSource={userData} />
+            <Table columns={columns} dataSource={userData}/>
             <UpdateUserModell isModelUpdateOpen={isModelUpdateOpen}
                                setIsModelUpdateOpen={setIsModelUpdateOpen}
                                dataUpdate={dataUpdate}
-                               setDataUpdate={setDataUpdate} />
+                               setDataUpdate={setDataUpdate}
+                               loadAllDataUser={loadAllDataUser} />
         </>
     )
 }
