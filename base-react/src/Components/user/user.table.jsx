@@ -22,7 +22,7 @@ const UserTable = () => {
         },
         {
             title: 'Email',
-            dataIndex: 'age',
+            dataIndex: 'email',
         },
         {
             title: 'Tuổi',
