@@ -106,6 +106,8 @@ export class UsersService {
     }
     await this.userModel.updateOne({
       _id: id,
+    },{
+      isDeleted: true
     })
     return this.userModel.softDelete({ _id: id });
   }
