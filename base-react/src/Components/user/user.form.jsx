@@ -3,12 +3,14 @@ import { useState } from "react";
 import { CreateUserAPI } from "../../services/api.service";
 
 
-const UserForm = () => {
+const UserForm = (props) => {
     const [fullName, setFullName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [age, setAge] = useState();
     const [gender, setGender] = useState();
+
+    const {loadAllDataUser} = props;
 
     const [isModalOpen, setIsModelOpen] = useState(false);
 
@@ -23,7 +25,8 @@ const UserForm = () => {
                 message: "Create user",
                 description: "Tạo mới user thành công",
             });
-            setIsModelOpen(false);
+            clearDataForm();
+           await loadAllDataUser()
         }
         else {
             notification.error({
@@ -31,6 +34,11 @@ const UserForm = () => {
                 description: JSON.stringify(response.message),
             });
         }
+    }
+
+    const clearDataForm = () => {
+        setIsModelOpen(false);
+        setFullName(""), setEmail(""),setPassword(""),setGender(""),setAge("");
     }
 
     return (

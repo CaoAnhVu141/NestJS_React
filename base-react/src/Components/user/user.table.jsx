@@ -2,11 +2,9 @@ import { Space, Table, Tag } from 'antd';
 import { GetAllUserAPI } from '../../services/api.service';
 import { useEffect, useState } from 'react';
 
-const UserTable = () => {
+const UserTable = (props) => {
 
-    const [userData, setUserData] = useState([]);
-
-    useEffect(() => {loadAllDataUser()}, [])
+    const {userData} = props;
 
     const columns = [
         {
@@ -33,10 +31,7 @@ const UserTable = () => {
             dataIndex: 'gender',
         },
     ];
-    const loadAllDataUser = async () => {
-        const response = await GetAllUserAPI();
-        setUserData(response.data.result)
-    }
+    
 
     return (
         <Table columns={columns} dataSource={userData} />
