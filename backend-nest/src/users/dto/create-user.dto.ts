@@ -18,5 +18,7 @@ export class CreateUserDto {
     @IsNotEmpty({message: "Gender không được để trống"})
     gender: string;
 
+    avatar: string;
+
 
 }
