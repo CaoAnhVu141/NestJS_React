@@ -8,10 +8,10 @@ const UserPage = () => {
     const [userData, setUserData] = useState([]);
 
     const [current, setCurrent] = useState(1);
-    const [pageSize, setPageSize] = useState(7);
+    const [pageSize, setPageSize] = useState(5);
     const [total, setTotal] = useState(0);
 
-    useEffect(() => {loadAllDataUser()}, [])
+    useEffect(() => {loadAllDataUser()}, [current,pageSize])
 
     const loadAllDataUser = async () => {
         const response = await GetAllUserAPI(current,pageSize);
@@ -22,6 +22,7 @@ const UserPage = () => {
             setTotal(response.data.meta.total);
         }
     }
+    console.log("check current: ",current);
     return (
         <div>
             <UserForm loadAllDataUser={loadAllDataUser}/>

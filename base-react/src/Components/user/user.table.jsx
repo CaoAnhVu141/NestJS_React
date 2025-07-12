@@ -37,9 +37,8 @@ const UserTable = (props) => {
             title: "STT",
             // render: (_, record, index) => <>{index + 1}</>
             render: (_, record, index) => {
-                console.log("check nha: ", index);
                 return (
-                    <>{index + 1}</>
+                    <>{(index + 1) + (current -1 ) * pageSize}</>
                 )
             }
         },
@@ -95,7 +94,20 @@ const UserTable = (props) => {
     ];
 
     const onChange = (pagination, filters, sorter, extra) => { 
-            console.log("check now: ", pagination,filters,sorter,extra)
+
+        // thay đổi số phần tử trang
+        if(pagination && pagination.current)
+        {
+            if(+pagination.current !== +current){
+                setCurrent(+pagination.current) //=> convert string to number
+            }
+        }
+        //thay đổi phần tử pageSize
+        if(pagination && pagination.pageSize){
+            if(pagination.pageSize !== pageSize){
+                setPageSize(pagination.pageSize);
+            }
+        }
      };
 
 
