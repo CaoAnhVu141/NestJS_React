@@ -7,7 +7,7 @@ import UserDetailData from './detail.user';
 
 const UserTable = (props) => {
 
-    const { userData, loadAllDataUser } = props;
+    const { userData, loadAllDataUser, current, pageSize, total,setCurrent,setPageSize } = props;
 
     const [isModelUpdateOpen, setIsModelUpdateOpen] = useState(false);
     const [dataUpdate, setDataUpdate] = useState(null);
@@ -33,6 +33,16 @@ const UserTable = (props) => {
     }
 
     const columns = [
+        {
+            title: "STT",
+            // render: (_, record, index) => <>{index + 1}</>
+            render: (_, record, index) => {
+                console.log("check nha: ", index);
+                return (
+                    <>{index + 1}</>
+                )
+            }
+        },
         {
             title: 'ID',
             dataIndex: '_id',
@@ -84,9 +94,24 @@ const UserTable = (props) => {
         },
     ];
 
+    const onChange = (pagination, filters, sorter, extra) => { 
+            console.log("check now: ", pagination,filters,sorter,extra)
+     };
+
+
     return (
         <>
-            <Table columns={columns} dataSource={userData} />
+            <Table columns={columns} dataSource={userData}
+                pagination={
+                    {
+                        current: current,
+                        pageSize: pageSize,
+                        showSizeChanger: true,
+                        total: total,
+                        showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
+                    }}
+                    onChange={onChange}
+            />
             <UpdateUserModell isModelUpdateOpen={isModelUpdateOpen}
                 setIsModelUpdateOpen={setIsModelUpdateOpen}
                 dataUpdate={dataUpdate}

@@ -10,8 +10,8 @@ const CreateUserAPI =  (fullName,email,password,age,gender) => {
        return axios.post(URL_BACKEND,data);
 }
 
-    const GetAllUserAPI = () => {
-        const URL_BACKEND = "/api/v1/users";
+    const GetAllUserAPI = (current,pageSize) => {
+        const URL_BACKEND = `/api/v1/users?current=${current}&pageSize=${pageSize}`;
         return axios.get(URL_BACKEND);
         }
     

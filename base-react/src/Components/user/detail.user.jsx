@@ -58,7 +58,6 @@ const UserDetailData = (props) => {
         }
     }
 
-
     return (
         <>
             <Drawer
@@ -106,7 +105,6 @@ const UserDetailData = (props) => {
                             <p>Không có data nào cả</p>
                         </>
                 }
-
             </Drawer>
         </>
     );
