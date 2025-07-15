@@ -49,6 +49,15 @@ const CreateUserAPI =  (fullName,email,password,age,gender) => {
         } 
         return axios.patch(URL_BACKEND,data);
     }
+
+    const RegisterUserAPI =  (fullName,email,password) => {
+
+    const URL_BACKEND = "/api/v1/auth/register";
+        const data = {
+            name: fullName, email: email, password: password,
+        }   
+       return axios.post(URL_BACKEND,data);
+}
     
 
-export {CreateUserAPI,GetAllUserAPI, UpdateUserAPI, DeleteUserAPI,HandleUploadFileAPI,UpdateAvatarUserAPI};
+export {CreateUserAPI,GetAllUserAPI, UpdateUserAPI, DeleteUserAPI,HandleUploadFileAPI,UpdateAvatarUserAPI,RegisterUserAPI};

@@ -1,9 +1,30 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, notification } from "antd";
+import { RegisterUserAPI } from "../services/api.service";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
     const [form] = Form.useForm();
-    const onFinish = (values) => {
-        console.log("check value: ", values);
+    const navigate = useNavigate()
+    const onFinish = async (values) => {
+        console.log(values);
+        const userData = await RegisterUserAPI(
+            values.name,
+            values.email,
+            values.password
+        )
+        if(userData.data){
+            notification.success({
+                message: "Đăng kí thành công",
+                description: "Thành công nha"
+            });
+            navigate("/login");
+        }
+        else{
+            notification.error({
+                message: "Đăng kí không thành công",
+                description: "Không thành công nhâ"
+            })
+        }
     }
     return (
         <>
@@ -21,14 +42,14 @@ const RegisterPage = () => {
                         label="Họ tên"
                         name="name"
                         rules={[{ required: true, message: 'Vui lòng điền họ tên!' },
-                        {
-                            validator: (_, value) => {
-                                if (!/^[a-zA-Z0-9]+$/.test(value)) {
-                                    return Promise.reject(new Error('Vui lòng nhập đúng dịnh dạng.'));
-                                }
-                                return Promise.resolve();
-                            },
-                        },
+                        // {
+                        //     validator: (_, value) => {
+                        //         if (!/^[a-zA-Z0-9]+$/.test(value)) {
+                        //             return Promise.reject(new Error('Vui lòng nhập đúng dịnh dạng.'));
+                        //         }
+                        //         return Promise.resolve();
+                        //     },
+                        // },
                         ]}
                     >
                         <Input />
