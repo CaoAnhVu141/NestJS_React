@@ -5,6 +5,7 @@ import { IUser } from 'src/users/users.interface';
 import ms from 'ms';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
+import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -108,5 +109,13 @@ export class AuthService {
     catch (error) {
       throw new BadRequestException(`Refresh token không hợp lệ. Vui lòng login.`)
     }
+  }
+
+  async registerAuthService(user: RegisterUserDto){
+      let newUser = await this.usersService.registerUserService(user);
+      return {
+        _id: newUser._id,
+        createdAt: newUser?.createdAt
+      }
   }
 }
