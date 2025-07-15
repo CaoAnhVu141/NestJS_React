@@ -3,7 +3,7 @@ import { Button, Form, Input } from "antd";
 const RegisterPage = () => {
     const [form] = Form.useForm();
     const onFinish = (values) => {
-            console.log("check value: ", values);
+        console.log("check value: ", values);
     }
     return (
         <>
@@ -20,21 +20,30 @@ const RegisterPage = () => {
                     <Form.Item
                         label="Họ tên"
                         name="name"
-                        rules={[{ required: true, message: 'Please input your name!' }]}
+                        rules={[{ required: true, message: 'Vui lòng điền họ tên!' },
+                        {
+                            validator: (_, value) => {
+                                if (!/^[a-zA-Z0-9]+$/.test(value)) {
+                                    return Promise.reject(new Error('Vui lòng nhập đúng dịnh dạng.'));
+                                }
+                                return Promise.resolve();
+                            },
+                        },
+                        ]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Email"
                         name="email"
-                        rules={[{ required: true, message: 'Please input your email!' }]}
+                        rules={[{ required: true, message: 'Vui lòng điền email!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Mật khẩu"
                         name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
+                        rules={[{ required: true, message: 'Vui lòng điền password!' }]}
                     >
                         <Input.Password />
                     </Form.Item>
