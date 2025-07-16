@@ -1,4 +1,4 @@
-import { Button, Form, Input, notification } from "antd";
+import { Button, Col, Form, Input, notification, Row } from "antd";
 import { RegisterUserAPI } from "../services/api.service";
 import { useNavigate } from "react-router-dom";
 
@@ -12,14 +12,14 @@ const RegisterPage = () => {
             values.email,
             values.password
         )
-        if(userData.data){
+        if (userData.data) {
             notification.success({
                 message: "Đăng kí thành công",
                 description: "Thành công nha"
             });
             navigate("/login");
         }
-        else{
+        else {
             notification.error({
                 message: "Đăng kí không thành công",
                 description: "Không thành công nhâ"
@@ -38,39 +38,48 @@ const RegisterPage = () => {
                     onFinish={onFinish}
                     // onFinishFailed={onFinishFailed}
                     autoComplete="off">
-                    <Form.Item
-                        label="Họ tên"
-                        name="name"
-                        rules={[{ required: true, message: 'Vui lòng điền họ tên!' },
-                        // {
-                        //     validator: (_, value) => {
-                        //         if (!/^[a-zA-Z0-9]+$/.test(value)) {
-                        //             return Promise.reject(new Error('Vui lòng nhập đúng dịnh dạng.'));
-                        //         }
-                        //         return Promise.resolve();
-                        //     },
-                        // },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Email"
-                        name="email"
-                        rules={[{ required: true, message: 'Vui lòng điền email!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Mật khẩu"
-                        name="password"
-                        rules={[{ required: true, message: 'Vui lòng điền password!' }]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
-                    <div>
-                        <Button type="primary" onClick={() => form.submit()}>Đăng kí</Button>
-                    </div>
+                    <Row justify={"center"}>
+                        <Col xs={24} md={6}>
+                            <Form.Item
+                                label="Họ tên"
+                                name="name"
+                                rules={[{ required: true, message: 'Vui lòng điền họ tên!' },
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row justify={"center"}>
+                        <Col xs={24} md={6}>
+                            <Form.Item
+                                label="Email"
+                                name="email"
+                                rules={[{ required: true, message: 'Vui lòng điền email!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row justify={"center"}>
+                        <Col xs={24} md={6}>
+                            <Form.Item
+                                label="Mật khẩu"
+                                name="password"
+                                rules={[{ required: true, message: 'Vui lòng điền password!' }]}
+                            >
+                                <Input.Password />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row justify={"center"}>
+                        <Col xs={24} md={6}>
+                            <div>
+                                <Button type="primary" onClick={() => form.submit()}>Đăng kí</Button>
+                            </div>
+                        </Col>
+                    </Row>
+
                 </Form>
             </div>
         </>
