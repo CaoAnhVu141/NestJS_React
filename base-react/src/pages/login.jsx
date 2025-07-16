@@ -1,14 +1,15 @@
 import { Button, Checkbox, Form, Input, notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginUserAPI } from "../services/api.service";
+import { useState } from "react";
 
 const LoginPage = () => {
 
     const [form] = Form.useForm();
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
     const onFinish = async (values) => {
-        console.log("check values: ", values);
-
+        setLoading(true);
         const userData = await LoginUserAPI(
             values.email,
             values.password,
@@ -26,6 +27,8 @@ const LoginPage = () => {
                 description: "Không thành công nha"
             })
         }
+        setLoading(false);
+
     }
     return (
         <>
@@ -44,7 +47,7 @@ const LoginPage = () => {
                     <Form.Item
                         label="Username"
                         name="email"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{ required: true, message: 'Không được để trống email!' }]}
                     >
                         <Input />
                     </Form.Item>
@@ -52,7 +55,7 @@ const LoginPage = () => {
                     <Form.Item
                         label="Password"
                         name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
+                        rules={[{ required: true, message: 'Không được để trống password!' }]}
                     >
                         <Input.Password />
                     </Form.Item>
@@ -70,7 +73,7 @@ const LoginPage = () => {
 
                         <Form.Item label={null}>
                             <div>
-                                <Button type="primary" onClick={() => form.submit()}>Đăng nhập</Button>
+                                <Button loading={loading} type="primary" onClick={() => form.submit()}>Đăng nhập</Button>
                             </div>
                         </Form.Item>
                     </div>
