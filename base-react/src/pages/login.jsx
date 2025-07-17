@@ -1,13 +1,15 @@
 import { Button, Checkbox, Form, Input, notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginUserAPI } from "../services/api.service";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../Components/context/auth.context";
 
 const LoginPage = () => {
 
     const [form] = Form.useForm();
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
+    const {setUserLogin} = useContext(AuthContext);
     const onFinish = async (values) => {
         setLoading(true);
         const userData = await LoginUserAPI(
@@ -19,6 +21,8 @@ const LoginPage = () => {
                 message: "Login thành công",
                 description: "Thành công nha"
             });
+            localStorage.setItem("access_token", userData.data.access_token);
+            setUserLogin(userData.data.user);
             navigate("/user");
         }
         else{

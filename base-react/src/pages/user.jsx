@@ -22,7 +22,6 @@ const UserPage = () => {
             setTotal(response.data.meta.total);
         }
     }
-    console.log("check current: ",current);
     return (
         <div>
             <UserForm loadAllDataUser={loadAllDataUser}/>
