@@ -61,7 +61,11 @@ const LoginPage = () => {
                         name="password"
                         rules={[{ required: true, message: 'Không được để trống password!' }]}
                     >
-                        <Input.Password />
+                        <Input.Password onKeyDown={(event) => {
+                            if(event.key === 'Enter'){
+                                form.submit();
+                            }
+                        }} />
                     </Form.Item>
 
                     <div className="title" style={{ justifyContent: "space-between", display: "flex" }}>
