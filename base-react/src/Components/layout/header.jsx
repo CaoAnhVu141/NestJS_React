@@ -1,18 +1,43 @@
 
-import { Link, NavLink } from 'react-router-dom';
-import { AlibabaOutlined, AppstoreOutlined, BookOutlined, HomeOutlined, LoginOutlined, MailOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
-import { Children, useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AlibabaOutlined, BookOutlined, HomeOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons';
+import { Menu, notification } from 'antd';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../context/auth.context';
+import { logoutUserAPI } from '../../services/api.service';
 
 const Header = () => {
     const [current, setCurrent] = useState('');
 
+    const navigate = useNavigate();
+
     const onClick = e => {
         setCurrent(e.key);
     };
-    const { userLogin } = useContext(AuthContext);
-    console.log("check user: ", userLogin);
+
+    const { userLogin, setUserLogin } = useContext(AuthContext);
+
+    const handleLogout = async () => {
+        const response = await logoutUserAPI();
+        if (response.data) {
+            localStorage.removeItem("access_token");
+            setUserLogin({
+                _id: "",
+                name: "",
+                email: "",
+                age: 0,
+                gender: "",
+                avatar: "",
+            })
+            notification.success({
+                message: "Thành công",
+                description: "Đăng xuất thành công"
+            })
+            navigate("/");
+        }
+    }
+
+
 
     const items = [
         {
@@ -42,7 +67,7 @@ const Header = () => {
             icon: <AlibabaOutlined />,
             children: [
                 {
-                    label: "Đăng xuất",
+                    label: <span onClick={() => { handleLogout() }}>Đăng xuất</span>,
                     key: "logout"
                 }
             ]

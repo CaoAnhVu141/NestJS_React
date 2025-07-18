@@ -59,21 +59,27 @@ const CreateUserAPI =  (fullName,email,password,age,gender) => {
        return axios.post(URL_BACKEND,data);
 }
 
-const LoginUserAPI =  (email,password) => {
+    const LoginUserAPI =  (email,password) => {
 
-    const URL_BACKEND = "/api/v1/auth/login";
-        const data = {
-            username: email, password: password, delay: 5000,
-        }   
-       return axios.post(URL_BACKEND,data);
-}
+        const URL_BACKEND = "/api/v1/auth/login";
+            const data = {
+                username: email, password: password, delay: 5000,
+            }   
+        return axios.post(URL_BACKEND,data);
+    }
 
-const getAccountAPI =  () => {
-    const URL_BACKEND = "/api/v1/auth/account"; 
-       return axios.get(URL_BACKEND);
+    const getAccountAPI =  () => {
+        const URL_BACKEND = "/api/v1/auth/account"; 
+        return axios.get(URL_BACKEND);
+    }
+
+    const logoutUserAPI =  () => {
+
+    const URL_BACKEND = "/api/v1/auth/logout";
+       return axios.post(URL_BACKEND);
 }
     
 
 export {CreateUserAPI,GetAllUserAPI, UpdateUserAPI, DeleteUserAPI,HandleUploadFileAPI,UpdateAvatarUserAPI,RegisterUserAPI,LoginUserAPI,
-    getAccountAPI
+    getAccountAPI,logoutUserAPI
 };
