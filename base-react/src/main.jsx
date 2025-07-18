@@ -12,6 +12,7 @@ import BookPage from './pages/books.jsx';
 import TodoApp from './Components/todo/todoApp.jsx';
 import ErrorPage from './pages/errors.jsx';
 import { AuthWraper } from './Components/context/auth.context.jsx';
+import PrivateRoute from './pages/private-route.jsx';
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/book",
-        element: <BookPage />,
+        element:
+          <PrivateRoute>
+            <BookPage />,
+          </PrivateRoute>
       },
     ]
   },
@@ -47,7 +51,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthWraper>
-        <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </AuthWraper>
   </React.StrictMode>,
 )
