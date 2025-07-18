@@ -6,6 +6,7 @@ import ms from 'ms';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
+import { User } from 'src/users/schemas/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -117,5 +118,11 @@ export class AuthService {
         _id: newUser._id,
         createdAt: newUser?.createdAt
       }
+  }
+
+  async logoutService(response: Response, user: IUser){
+      await this.usersService.updateUserFunction("",user._id);
+      response.clearCookie("refresh_token");
+      return "ok";
   }
 }
