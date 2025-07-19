@@ -13,14 +13,14 @@ const FormBookUpdate = (props) => {
     const {dataUpdate,setDataUpdate,isModelUpdate,setIsModelUpdate,loadAllDataBook} = props;
 
     useEffect(() => {
-            if(dataUpdate){
+            if(isModelUpdate &&dataUpdate){
                 setId(dataUpdate._id);
                 setName(dataUpdate.name);
                 setDescription(dataUpdate.description);
                 setQuantity(dataUpdate.quantity);
                 setPrice(dataUpdate.price);
             }
-        },[dataUpdate]);
+        },[isModelUpdate,dataUpdate]);
 
         const handleClearBook = () => {
             setIsModelUpdate(false);
@@ -54,7 +54,7 @@ const FormBookUpdate = (props) => {
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 open={isModelUpdate}
                 onOk={() => { handleUpdateBook() }}
-                onCancel={() => { setIsModelUpdate(false) }}
+                onCancel={() => { handleClearBook() }}
                 maskClosable={false}
             >
                 <div className="data-form-user" style={{ display: "flex", gap: "15px", marginTop: "10px", flexDirection: "column"}}>
