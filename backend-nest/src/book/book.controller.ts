@@ -5,7 +5,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { IUser } from 'src/users/users.interface';
 import { ResponseMessage, User } from 'src/decorator/customize';
 
-@Controller('book')
+@Controller('books')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
