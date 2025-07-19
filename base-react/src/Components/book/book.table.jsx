@@ -1,9 +1,36 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Popconfirm, Table } from "antd";
+import { notification, Popconfirm, Table } from "antd";
+import { useState } from "react";
+import DataBookDetail from "./detail.book";
+import { deleteBookAPI } from "../../services/api.service";
+import FormBookUpdate from "./book.form.update";
 
 const BookTable = (props) => {
 
-    const { bookData, current, pageSize, total, setCurrent, setPageSize } = props;
+    const { bookData, current, pageSize, total, setCurrent, setPageSize, loadAllDataBook } = props;
+
+    const [dataBookDetail, setDataBookDetail] = useState(null);
+    const [isModelBookDetail, setIsModelBookDetail] = useState(false);
+
+    const [dataUpdate, setDataUpdate] = useState(null);
+    const [isModelUpdate, setIsModelUpdate] = useState(false);
+
+    const handleDeleteBook = async (id) => {
+        const response = await deleteBookAPI(id);
+        if(response.data){
+            notification.success({
+                message: "Xoá sách thành công",
+                description: "Xoá sách thành công",
+            });
+            await loadAllDataBook();
+        }
+        else{
+            notification.error({
+                message: "Lỗi xoá nha",
+                description: "Xoá không thành công",
+            })
+        }
+    }
 
     const onChange = (pagination, filters, sorter, extra) => {
         // thay đổi số phần tử trang
@@ -19,7 +46,7 @@ const BookTable = (props) => {
             }
         }
     };
-    
+
     const columns = [
         {
             title: "STT",
@@ -32,11 +59,11 @@ const BookTable = (props) => {
         {
             title: 'ID',
             dataIndex: '_id',
-            // render: (_, record) => (
-            //     <a href="#" onClick={() => {
-            //         setDataDetail(record), setIsModalDetailOpen(true)
-            //     }}>{record._id}</a>
-            // )
+            render: (_, record) => (
+                <a href="#" onClick={() => {
+                    setDataBookDetail(record), setIsModelBookDetail(true)
+                }}>{record._id}</a>
+            )
         }
         , {
             title: 'Tên sách',
@@ -61,13 +88,15 @@ const BookTable = (props) => {
             key: 'action',
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "10px" }}>
-                    <a><EditOutlined /></a>
+                    <a><EditOutlined onClick={() => { setDataUpdate(record); setIsModelUpdate(true) 
+                        console.log("check now");
+                    }} /></a>
                     <Popconfirm
-                        title="Delete the task"
-                        description="Bạn có muốn xoá user không nè"
-                        // onConfirm={() => {
-                        //     handleDeleteUser(record._id)
-                        // }}
+                        title="Delete book"
+                        description="Bạn có muốn xoá book không nè"
+                        onConfirm={() => {
+                            handleDeleteBook(record._id)
+                        }}
                         // onCancel={cancel}
                         okText="Yes"
                         cancelText="No"
@@ -82,17 +111,34 @@ const BookTable = (props) => {
 
 
     return (
-        <Table columns={columns} dataSource={bookData}
-            pagination={
-                {
-                    current: current,
-                    pageSize: pageSize,
-                    showSizeChanger: false,
-                    total: total,
-                    showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
-                }}
-            onChange={onChange}
-        />
+        <>
+            <Table columns={columns} dataSource={bookData}
+                pagination={
+                    {
+                        current: current,
+                        pageSize: pageSize,
+                        showSizeChanger: false,
+                        total: total,
+                        showTotal: (total, range) => { return (<div> {range[0]}-{range[1]} trên {total} rows</div>) }
+                    }}
+                onChange={onChange}
+            />
+            <FormBookUpdate
+                dataUpdate={dataUpdate}
+                setDateUpdate= {setDataUpdate}
+                isModelUpdate={isModelUpdate}
+                setIsModelUpdate={setIsModelUpdate}
+                loadAllDataBook={loadAllDataBook}
+            />
+            <DataBookDetail
+                dataBookDetail={dataBookDetail}
+                setDataBookDetail={setDataBookDetail}
+                isModelBookDetail={isModelBookDetail}
+                setIsModelBookDetail={setIsModelBookDetail}
+                loadAllDataBook={loadAllDataBook}
+            />
+        </>
+
     )
 
 }

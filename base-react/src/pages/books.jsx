@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import BookTable from "../Components/book/book.table";
 import { getAllBookAPI } from "../services/api.service";
+import BookForm from "../Components/book/book.form";
 
 const BookPage = () => {
 
     const [bookData, setBookData] = useState([]);
-
 
     const [current, setCurrent] = useState(1);
     const [pageSize, setPageSize] = useState(5);
@@ -26,6 +26,8 @@ const BookPage = () => {
     }
     return (
         <>
+            <BookForm loadAllDataBook={loadAllDataBook}/>
+            
             <BookTable
                 bookData={bookData}
                 loadAllDataBook={loadAllDataBook}
